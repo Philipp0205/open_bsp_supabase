@@ -157,6 +157,9 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 # Generate json serializable models
 - `flutter pub run build_runner build`
 
+# Build development apk 
+- `flutter run --flavor development --target lib/main_development.dart`
+
 [coverage_badge]: coverage_badge.svg
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
 [internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization

@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:supabase_database_client/src/models/supabase_category.dart';
 import 'package:supabase_database_client/src/models/supabase_user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -115,21 +118,18 @@ class SupabaseDatabaseClient {
     }
   }
 
-// Future<SupabaseCategory> getCategories() async {
-//   try {
-//     /// Get the categories from the database.
-//     final response = await _supabaseClient
-//         .from('categories')
-//         .select()
-//         .execute();
-//
-//     final data = response.data as Map<String, dynamic>;
-//     return SupabaseCategory.fromJson(data);
-//   } catch (error, stackTrace) {
-//     Error.throwWithStackTrace(
-//       SupabaseUserInformationFailure(error),
-//       stackTrace,
-//     );
-//   }
-// }
+  /// Method to get image from supabase bucket
+  Future<Image> getImageFromDatabase(String imageName) async {
+    try {
+      final response =
+          await _supabaseClient.storage.from('images').download(imageName);
+
+      return Image.memory(response.data!);
+    } catch (error, stackTrace) {
+      Error.throwWithStackTrace(
+        SupabaseUpdateUserFailure(error),
+        stackTrace,
+      );
+    }
+  }
 }

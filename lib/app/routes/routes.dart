@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:very_good_supabase/account/account.dart';
 import 'package:very_good_supabase/app/app.dart';
 import 'package:very_good_supabase/login/login.dart';
 
@@ -17,6 +16,12 @@ List<Page<dynamic>> onGenerateAppViewPages(
     //   return [AccountPage.page()];
 
     case AppStatus.authenticated:
+      return [CategoryPage.page()];
+
+    case AppStatus.categories:
+      return [CategoryPage.page()];
+
+    case AppStatus.quiz:
       return [CategoryPage.page()];
   }
 }

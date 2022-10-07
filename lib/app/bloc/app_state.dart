@@ -3,6 +3,8 @@ part of 'app_bloc.dart';
 enum AppStatus {
   authenticated,
   unauthenticated,
+  categories,
+  quiz,
 }
 
 class AppState extends Equatable {

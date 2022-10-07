@@ -13,6 +13,8 @@ class SupabaseCategory extends Equatable {
   const SupabaseCategory({
     int? id,
     required this.name,
+    required this.imageName,
+    required this.color,
   }) : id = id ?? 0;
 
   /// Connect the generated [_$SupabaseUserFromJson] function to the `fromJson`
@@ -27,12 +29,22 @@ class SupabaseCategory extends Equatable {
   @JsonKey(name: 'name')
   final String name;
 
+  /// Image name of the category.
+  @JsonKey(name: 'image_name')
+  final String imageName;
+
+  /// Color of the category.
+  @JsonKey(name: 'color')
+  final String color;
+
   @override
-  List<Object> get props => [id, name];
+  List<Object> get props => [id, name, imageName, color];
 
   /// Empty Supabase object.
   static const empty = SupabaseCategory(
     name: '',
+    imageName: '',
+    color: '',
   );
 
   /// Connect the generated [_$SupabaseUserToJson]

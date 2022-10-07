@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:category_repository/src/models/category.dart';
+import 'package:flutter/src/widgets/image.dart';
 import 'package:supabase_auth_client/supabase_auth_client.dart';
 import 'package:supabase_database_client/supabase_database_client.dart';
 
@@ -26,14 +29,15 @@ class CategoryRepository {
   /// Method to access the current category.
   Future<List<Category>> getCategories() async {
     final categories = await _databaseClient.getCategories();
-    return categories.map((category) => category.toCategory()).toList();
-  }
 
-  /// Method to update user information on profiles database.
-  // Future<void> updateCategory({required Category category}) {
-  //   return _databaseClient.updateCategory(
-  //       category: category.toSupabaseCategory());
-  // }
+    final result = <Category>[];
+    for (final category in categories) {
+      final image = await getImageFromDatabase(category.imageName);
+      result.add(category.toCategory(image));
+    }
+
+    return result;
+  }
 
   /// Method to do signIn.
   Future<void> signIn({required String email, required bool isWeb}) async {
@@ -42,13 +46,20 @@ class CategoryRepository {
 
   /// Method to do signOut.
   Future<void> signOut() async => _authClient.signOut();
+
+  /// Method to get an image from a supabase bucket.
+  Future<Image> getImageFromDatabase(String imageName) async {
+    return _databaseClient.getImageFromDatabase(imageName);
+  }
 }
 
 extension on SupabaseCategory {
-  Category toCategory() {
+  Category toCategory(Image? image) {
     return Category(
       id: id,
       name: name,
+      image: image,
+      color: color,
     );
   }
 }

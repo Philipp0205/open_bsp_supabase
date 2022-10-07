@@ -5,10 +5,11 @@ import 'package:category_repository/category_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'categories_event.dart';
+
 part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  CategoriesBloc(this._categoriesRepository) : super(CategoriesInitial()) {
+  CategoriesBloc(this._categoriesRepository) : super(const CategoriesState()) {
     on<CategoriesFetched>(_onFetchCategories);
   }
 
@@ -19,9 +20,15 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     try {
       // emit(CategoriesLoading());
       final categories = await _categoriesRepository.getCategories();
-      // emit(CategoriesSuccess(categories: categories));
+      emit(
+        state.copyWith(categories: categories, status: CategoryStatus.success),
+      );
     } catch (error) {
       addError(error);
     }
+  }
+
+  void getImageFromDatabase(String imageName) {
+    _categoriesRepository.getImageFromDatabase(imageName);
   }
 }
