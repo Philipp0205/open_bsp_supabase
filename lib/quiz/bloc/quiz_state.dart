@@ -8,15 +8,15 @@ extension QuizStatusX on QuizStatus {
 
 class QuizState extends Equatable {
   const QuizState({
-    required this.category,
+    required this.initialCategory,
     this.status = QuizStatus.loading,
   });
   
-  final Category category; 
+  final Category? initialCategory;
   final QuizStatus status;
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [];
   
 }
 

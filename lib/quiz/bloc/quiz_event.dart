@@ -10,7 +10,6 @@ abstract class QuizEvent extends Equatable {
 
 /// Event to fetch questions.
 class QuizFetched extends QuizEvent {
-  const QuizFetched(this.category);
+  const QuizFetched();
 
-  final Category category;
 }
