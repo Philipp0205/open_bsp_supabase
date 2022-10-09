@@ -11,5 +11,9 @@ abstract class QuizEvent extends Equatable {
 /// Event to fetch questions.
 class QuizFetched extends QuizEvent {
   const QuizFetched();
+}
 
+/// Event to move to next page of the quiz.
+class QuizNextPage extends QuizEvent {
+  const QuizNextPage();
 }

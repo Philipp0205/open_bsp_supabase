@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_supabase/categories/bloc/categories_bloc.dart';
 import 'package:very_good_supabase/categories/view/widgets/category_card.dart';
 import 'package:very_good_supabase/categories/view/widgets/loader.dart';
-import 'package:very_good_supabase/quiz/view/quiz_home_page.dart';
-import 'package:very_good_supabase/quiz/view/quiz_home_view.dart';
+
+import '../../quiz_home/view/quiz/quiz_view.dart';
 
 class CategoryView extends StatefulWidget {
   const CategoryView({super.key});
@@ -37,11 +37,8 @@ class _CategoryViewState extends State<CategoryView> {
                         color: category.color,
                         onTap: () {
                           Navigator.of(context).push(
-                            QuizHomeView.route(initialCategory: category),
+                            QuizView.route(initialCategory: category),
                           );
-                          // Navigator.of(context).push(
-                          //   QuizHomePage.route(initialCategory: category),
-                          // );
                         },
                       ),
                     )
