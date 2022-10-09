@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:category_repository/src/models/question.dart';
 import 'package:flutter/material.dart';
 
 import 'package:equatable/equatable.dart';
@@ -13,6 +13,7 @@ class Category extends Equatable {
     this.name = '',
     this.imageName = '',
     this.color = '',
+    this.questions = const [],
     required this.image,
   });
 
@@ -33,6 +34,9 @@ class Category extends Equatable {
   /// The category's image.
   final Image? image;
 
+  /// The category's questions
+  final List<Question> questions;
+
   @override
-  List<Object> get props => [id, name, imageName, color];
+  List<Object> get props => [id, name, imageName, color, questions];
 }
