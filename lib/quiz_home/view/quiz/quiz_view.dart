@@ -13,7 +13,10 @@ class QuizView extends StatelessWidget {
     return MaterialPageRoute(
       fullscreenDialog: true,
       builder: (context) => BlocProvider(
-        create: (context) => QuizBloc(initialCategory: initialCategory),
+        create: (context) => QuizBloc(
+          initialCategory: initialCategory,
+          categoryRepository: context.read<CategoryRepository>(),
+        )..add(const QuizFetched()),
         child: const QuizView(),
       ),
     );

@@ -8,7 +8,7 @@ part 'quiz_state.dart';
 part 'quiz_event.dart';
 
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
-  QuizBloc({required Category? initialCategory})
+  QuizBloc({required this.categoryRepository, required this.initialCategory})
       : super(
           QuizState(
             initialCategory: initialCategory,
@@ -20,6 +20,24 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   }
 
   final PageController pageController = PageController();
+  final CategoryRepository categoryRepository;
+  final Category? initialCategory;
 
-  void _onFetchQuiz(QuizFetched event, Emitter<QuizState> emit) {}
+  Future<void> _onFetchQuiz(QuizFetched event, Emitter<QuizState> emit) async {
+    try {
+      final questions = await categoryRepository.getQuestions(
+        category: state.initialCategory!,
+      );
+
+      emit(
+        state.copyWith(
+          initialCategory:
+              state.initialCategory?.copyWith(questions: questions),
+          status: QuizStatus.success,
+        ),
+      );
+    } catch (error) {
+      addError(error);
+    }
+  }
 }

@@ -39,4 +39,22 @@ class Category extends Equatable {
 
   @override
   List<Object> get props => [id, name, imageName, color, questions];
+
+  Category copyWith({
+    int? id,
+    String? name,
+    String? imageName,
+    String? color,
+    Image? image,
+    List<Question>? questions,
+  }) {
+    return Category(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      imageName: imageName ?? this.imageName,
+      color: color ?? this.color,
+      image: image ?? this.image,
+      questions: questions ?? this.questions,
+    );
+  }
 }

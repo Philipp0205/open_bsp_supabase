@@ -8,7 +8,7 @@ extension QuizStatusX on QuizStatus {
 
 class QuizState extends Equatable {
   const QuizState({
-    required this.initialCategory,
+    this.initialCategory,
     required this.pageIndex,
     required this.progress,
     this.status = QuizStatus.loading,

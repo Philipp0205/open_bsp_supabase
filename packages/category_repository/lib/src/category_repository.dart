@@ -5,6 +5,8 @@ import 'package:flutter/src/widgets/image.dart';
 import 'package:supabase_auth_client/supabase_auth_client.dart';
 import 'package:supabase_database_client/supabase_database_client.dart';
 
+import 'models/question.dart';
+
 // Copyright (c) 2022, Very Good Ventures
 // https://verygood.ventures
 //
@@ -39,6 +41,13 @@ class CategoryRepository {
     return result;
   }
 
+  /// Method to access the questions of a category.
+  Future<List<Question>> getQuestions({required Category category}) async {
+    final questions = await _databaseClient.getQuestionsOfCategory(category.id);
+
+    return questions.map((question) => question.toQuestion()).toList();
+  }
+
   /// Method to do signIn.
   Future<void> signIn({required String email, required bool isWeb}) async {
     return _authClient.signIn(email: email, isWeb: isWeb);
@@ -60,6 +69,19 @@ extension on SupabaseCategory {
       name: name,
       image: image,
       color: color,
+    );
+  }
+}
+
+extension on SupabaseQuestion {
+  Question toQuestion() {
+    return Question(
+      id: id,
+      categoryId: categoryId,
+      questionText: questionText,
+      rightAnswer: rightAnswer,
+      wrongAnswer1: wrongAnswer1,
+      wrongAnswer2: wrongAnswer2,
     );
   }
 }

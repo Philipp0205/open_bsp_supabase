@@ -17,3 +17,8 @@ class QuizFetched extends QuizEvent {
 class QuizNextPage extends QuizEvent {
   const QuizNextPage();
 }
+
+/// Event to start the quiz.
+class QuizStarted extends QuizEvent {
+  const QuizStarted();
+}
