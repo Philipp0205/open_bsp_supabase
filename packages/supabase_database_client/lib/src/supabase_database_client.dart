@@ -5,6 +5,8 @@ import 'package:supabase_database_client/src/models/supabase_category.dart';
 import 'package:supabase_database_client/src/models/supabase_user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'models/supabase_question.dart';
+
 /// {@template supabase_database_exception}
 /// A generic supabase database exception.
 /// {@endtemplate}
@@ -72,23 +74,11 @@ class SupabaseDatabaseClient {
           await _supabaseClient.from('categories').select().execute();
       final data = response.data as List<dynamic>;
 
-      // for (final category in data) {
-      //   categories
-      //       .add(SupabaseCategory.fromJson(category as Map<String, dynamic>));
-      // }
-      // List<SupabaseCategory> categories = data
-      //     .map((category) =>
-      //         SupabaseCategory.fromJson(category as Map<String, dynamic>))
-      //     .toList();
-
       return data
           .map((category) =>
               SupabaseCategory.fromJson(category as Map<String, dynamic>))
-          .map((e) => e as SupabaseCategory)
+          .map((e) => e)
           .toList();
-
-      // return data as List<SupabaseCategory>;
-      // return List.empty();
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(
         SupabaseUserInformationFailure(error),
@@ -125,6 +115,32 @@ class SupabaseDatabaseClient {
           await _supabaseClient.storage.from('images').download(imageName);
 
       return Image.memory(response.data!);
+    } catch (error, stackTrace) {
+      Error.throwWithStackTrace(
+        SupabaseUpdateUserFailure(error),
+        stackTrace,
+      );
+    }
+  }
+
+  /// Method to get questions for a specific category.
+  /// The category is passed as a parameter.
+  Future<List<SupabaseQuestion>> getQuestionsOfCategory(
+      SupabaseCategory category) async {
+    try {
+      final response = await _supabaseClient
+          .from('questions')
+          .select()
+          .eq('category_id', category.id)
+          .execute();
+
+      final data = response.data as List<dynamic>;
+
+      return data
+          .map((question) =>
+              SupabaseQuestion.fromJson(question as Map<String, dynamic>))
+          .map((e) => e)
+          .toList();
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(
         SupabaseUpdateUserFailure(error),
