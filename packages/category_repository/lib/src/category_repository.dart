@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/image.dart';
 import 'package:supabase_auth_client/supabase_auth_client.dart';
 import 'package:supabase_database_client/supabase_database_client.dart';
 
+import '../category_repository.dart';
 import 'models/question.dart';
 
 // Copyright (c) 2022, Very Good Ventures
@@ -75,13 +76,29 @@ extension on SupabaseCategory {
 
 extension on SupabaseQuestion {
   Question toQuestion() {
+    final options = <Option>[
+      Option(
+        questionId: id,
+        text: rightAnswer,
+        isCorrect: true,
+      ),
+      Option(
+        questionId: id,
+        text: wrongAnswer1,
+        isCorrect: false,
+      ),
+      Option(
+        questionId: id,
+        text: wrongAnswer2,
+        isCorrect: false,
+      ),
+    ];
+
     return Question(
       id: id,
       categoryId: categoryId,
       questionText: questionText,
-      rightAnswer: rightAnswer,
-      wrongAnswer1: wrongAnswer1,
-      wrongAnswer2: wrongAnswer2,
+      options: options,
     );
   }
 }

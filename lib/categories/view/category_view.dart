@@ -51,16 +51,3 @@ class _CategoryViewState extends State<CategoryView> {
     );
   }
 }
-
-class _DebugButton extends StatelessWidget {
-  const _DebugButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () =>
-          context.read<CategoriesBloc>().add(const CategoriesFetched()),
-      child: const Text('Debug'),
-    );
-  }
-}

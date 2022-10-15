@@ -1,3 +1,4 @@
+import 'package:category_repository/src/models/option.dart';
 import 'package:equatable/equatable.dart';
 
 /// {@template question}
@@ -9,18 +10,14 @@ class Question extends Equatable {
     required this.id,
     required this.categoryId,
     required this.questionText,
-    required this.rightAnswer,
-    required this.wrongAnswer1,
-    required this.wrongAnswer2,
+    required this.options,
   });
 
   static const Question empty = Question(
     id: 0,
     categoryId: 0,
     questionText: '',
-    rightAnswer: '',
-    wrongAnswer1: '',
-    wrongAnswer2: '',
+    options: [],
   );
 
   /// The question's id.
@@ -32,16 +29,22 @@ class Question extends Equatable {
   /// The question's text.
   final String questionText;
 
-  /// The question's right answer.
-  final String rightAnswer;
-
-  /// The question's first wrong answer.
-  final String wrongAnswer1;
-
-  /// The question's second wrong answer.
-  final String wrongAnswer2;
+  final List<Option> options;
 
   @override
-  List<Object> get props =>
-      [id, categoryId, questionText, rightAnswer, wrongAnswer1, wrongAnswer2];
+  List<Object> get props => [id, categoryId, questionText, options];
+
+  Question copyWith({
+    int? id,
+    int? categoryId,
+    String? questionText,
+    List<Option>? options,
+  }) {
+    return Question(
+      id: id ?? this.id,
+      categoryId: categoryId ?? this.categoryId,
+      questionText: questionText ?? this.questionText,
+      options: options ?? this.options,
+    );
+  }
 }

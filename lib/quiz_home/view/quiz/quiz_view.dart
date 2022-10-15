@@ -1,13 +1,12 @@
 import 'package:category_repository/category_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:very_good_supabase/quiz_home/bloc/quiz_bloc.dart';
+import 'package:very_good_supabase/quiz_home/view/question/question_view.dart';
 import 'package:very_good_supabase/quiz_home/view/quiz_home/quiz_home_view2.dart';
 
-import '../../bloc/quiz_bloc.dart';
-
 class QuizView extends StatelessWidget {
-  const QuizView({Key? key}) : super(key: key);
+  const QuizView({super.key});
 
   static Route<void> route({Category? initialCategory}) {
     return MaterialPageRoute(
@@ -31,13 +30,19 @@ class QuizView extends StatelessWidget {
       body: BlocBuilder<QuizBloc, QuizState>(
         builder: (context, state) {
           return PageView.builder(
+            controller: state.pageController,
             itemBuilder: (context, index) {
               return BlocBuilder<QuizBloc, QuizState>(
                 builder: (context, state) {
                   if (index == 0) {
                     return QuizHomeView2(category: state.initialCategory!);
-                  } else if (index == 1) {
-                    return Text('Quiz Page');
+                  } else if (index <=
+                      state.initialCategory!.questions.length - 1) {
+                    return QuestionView(
+                      question:
+                          state.initialCategory!.questions[state.pageIndex],
+                      category: state.initialCategory!,
+                    );
                   } else {
                     return Text('Result');
                   }

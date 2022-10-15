@@ -1,6 +1,9 @@
 import 'package:category_repository/category_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/quiz_bloc.dart';
 
 class QuizHomeView2 extends StatelessWidget {
   const QuizHomeView2({super.key, required this.category});
@@ -38,7 +41,9 @@ class QuizHomeView2 extends StatelessWidget {
               ),
               const Divider(),
               ElevatedButton(
-                onPressed: () => print('test'),
+                onPressed: () {
+                  context.read<QuizBloc>().add(const QuizNextPage());
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [

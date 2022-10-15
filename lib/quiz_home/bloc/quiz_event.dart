@@ -22,3 +22,10 @@ class QuizNextPage extends QuizEvent {
 class QuizStarted extends QuizEvent {
   const QuizStarted();
 }
+
+/// Event to select an option.
+class QuizOptionSelected extends QuizEvent {
+  const QuizOptionSelected({required this.option});
+
+  final Option option;
+}

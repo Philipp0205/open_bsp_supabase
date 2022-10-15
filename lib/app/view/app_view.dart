@@ -28,9 +28,23 @@ class _AppViewState extends AuthStateSupabase<AppView> {
     return MaterialApp(
       title: 'Very Good Supabase',
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(color: Colors.teal),
-        colorScheme: const ColorScheme.light().copyWith(
+        appBarTheme: const AppBarTheme(color: Color(0xff44475a)),
+        scaffoldBackgroundColor: const Color(0xff282a36),
+        colorScheme: const ColorScheme.dark().copyWith(
           primary: Colors.teal,
+          background: Colors.red,
+        ),
+        textTheme: const TextTheme(
+          headline1: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Color(0xfffbd93f9),
+          ),
+          headline2: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Color(0xfff8f8f2),
+          ),
         ),
       ),
       localizationsDelegates: const [
