@@ -24,7 +24,7 @@ class QuizState extends Equatable {
   final PageController pageController;
 
   @override
-  List<Object> get props => [selectedOption, pageIndex];
+  List<Object> get props => [selectedOption, pageIndex, progress];
 
   QuizState copyWith({
     Category? initialCategory,

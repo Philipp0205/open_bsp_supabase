@@ -70,8 +70,11 @@ class SupabaseDatabaseClient {
   Future<List<SupabaseCategory>> getCategories() async {
     try {
       // List<SupabaseCategory> categories = [];
-      final response =
-          await _supabaseClient.from('categories').select().execute();
+      final response = await _supabaseClient
+          .from('categories')
+          .select()
+          .order('id', ascending: true)
+          .execute();
       final data = response.data as List<dynamic>;
 
       return data
@@ -125,8 +128,7 @@ class SupabaseDatabaseClient {
 
   /// Method to get questions for a specific category.
   /// The category is passed as a parameter.
-  Future<List<SupabaseQuestion>> getQuestionsOfCategory(
-      int categoryId) async {
+  Future<List<SupabaseQuestion>> getQuestionsOfCategory(int categoryId) async {
     try {
       final response = await _supabaseClient
           .from('questions')

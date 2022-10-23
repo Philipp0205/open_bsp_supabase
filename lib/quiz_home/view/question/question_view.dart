@@ -26,7 +26,7 @@ class QuestionView extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "Frage",
+                      'Frage',
                       style: Theme.of(context).textTheme.headline1,
                     ),
                   ],
@@ -43,7 +43,7 @@ class QuestionView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
                 Column(
                   children: question.options
@@ -58,12 +58,13 @@ class QuestionView extends StatelessWidget {
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color(0xff50fa7b)),
+                        const Color(0xff88c0d0),),
                   ),
-                  onPressed: () => print('test'),
+                  onPressed: () => _showBottomSheet(context,
+                      context.read<QuizBloc>().state.selectedOption, question),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [Text('Check')],
+                    children: const [Text('Prüfen')],
                   ),
                 ),
               ],
@@ -79,6 +80,61 @@ class QuestionView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showBottomSheet(
+    BuildContext context,
+    Option option,
+    Question question,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return Container(
+          height: 250,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text(option.isCorrect ? 'Sehr gut!' : 'Falsch!'),
+              Text(
+                option.isCorrect
+                    ? 'Die richtige Antwort ist '
+                        '${question.options.firstWhere(
+                              (option) => option.isCorrect,
+                            ).text}'
+                    : 'Versuche es nochmal!',
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: option.isCorrect ? Color(0xff88c0d0): Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32.0),
+                  ),
+                ),
+                child: Text(
+                  option.isCorrect ? 'Weiter!' : 'Nochmal!',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    letterSpacing: 1.5,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onPressed: () {
+                  if (option.isCorrect) {
+                    context.read<QuizBloc>().add(const QuizNextPage());
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -105,93 +161,33 @@ class QuestionOption extends StatelessWidget {
         ),
       ),
       constraints: const BoxConstraints(
-        minHeight: 50,
-        maxHeight: 80,
+        minHeight: 80,
       ),
       margin: const EdgeInsets.only(bottom: 10),
-      child: Center(
-        child: InkWell(
-          onTap: () {
-            context.read<QuizBloc>().add(QuizOptionSelected(option: option));
-            _showBottomSheet(context, option, question);
-          },
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              children: [
-                if (state.selectedOption.text == option.text)
-                  const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                  )
-                else
-                  const Icon(Icons.circle),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(child: Text(option.text)),
-              ],
-            ),
+      child: InkWell(
+        onTap: () {
+          context.read<QuizBloc>().add(QuizOptionSelected(option: option));
+        },
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              if (state.selectedOption.text == option.text)
+                const Icon(
+                  Icons.check,
+                  color: Colors.white,
+                )
+              else
+                const Icon(Icons.circle),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(child: Text(option.text)),
+            ],
           ),
         ),
       ),
-    );
-  }
-
-  void _showBottomSheet(
-    BuildContext context,
-    Option option,
-    Question question,
-  ) {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return Container(
-          height: 250,
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Text(option.isCorrect ? 'Sehr gut!' : 'Falsch!'),
-              Text(option.isCorrect
-                  ? 'Die richtige Antwort ist '
-                      '${question.options.firstWhere(
-                            (option) => option.isCorrect,
-                          ).text}'
-                  : 'Dir richtige Antwort wäre:'),
-              Text(
-                option.text,
-                style: const TextStyle(fontSize: 18, color: Colors.white54),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: option.isCorrect ? Colors.green : Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32.0),
-                  ),
-                ),
-                child: Text(
-                  option.isCorrect ? 'Onward!' : 'Try Again',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 1.5,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                onPressed: () {
-                  if (option.isCorrect) {
-                    context.read<QuizBloc>().add(const QuizNextPage());
-                    Navigator.pop(context);
-                  } else {
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

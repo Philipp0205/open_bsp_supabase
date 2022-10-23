@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:category_repository/category_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,11 +27,18 @@ class QuizView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quiz'),
+        title: BlocBuilder<QuizBloc, QuizState>(
+          buildWhen: (previous, current) =>
+              previous.progress != current.progress,
+          builder: (context, state) {
+            return _buildProgressBar(state);
+          },
+        ),
       ),
       body: BlocBuilder<QuizBloc, QuizState>(
         builder: (context, state) {
           return PageView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             controller: state.pageController,
             itemBuilder: (context, index) {
               return BlocBuilder<QuizBloc, QuizState>(
@@ -51,6 +60,24 @@ class QuizView extends StatelessWidget {
             },
           );
         },
+      ),
+    );
+  }
+
+  DecoratedBox _buildProgressBar(QuizState state) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: LinearProgressIndicator(
+          minHeight: 10,
+          value: state.progress,
+          semanticsLabel: 'Linear progress indicator',
+          valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          backgroundColor: const Color(0xff4c566a),
+        ),
       ),
     );
   }

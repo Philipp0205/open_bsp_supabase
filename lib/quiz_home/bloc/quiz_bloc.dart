@@ -22,6 +22,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     on<QuizFetched>(_onFetchQuiz);
     on<QuizNextPage>(_onNextPage);
     on<QuizOptionSelected>(_onSelectOption);
+    on<QuizStarted>(_onStartQuiz);
   }
 
   final CategoryRepository categoryRepository;
@@ -50,15 +51,32 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     }
   }
 
+  /// Move to next page of the quiz.
+  /// If the current page is the last page, then the quiz is finished.
   void _onNextPage(QuizNextPage event, Emitter<QuizState> emit) {
+    final index = state.pageIndex + 1;
+    final progress =
+        index / state.initialCategory!.questions.length;
+
     state.pageController.nextPage(
       duration: const Duration(milliseconds: 300),
       curve: Curves.ease,
     );
-    final index = state.pageIndex + 1;
-    emit(state.copyWith(pageIndex: index));
+    emit(state.copyWith(pageIndex: index, progress: progress));
   }
 
+  /// Start the quiz.
+  void _onStartQuiz(QuizStarted event, Emitter<QuizState> emit) {
+    final progress = state.pageIndex / state.initialCategory!.questions.length;
+
+    state.pageController.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
+    emit(state.copyWith(progress: progress));
+  }
+
+  /// Select an option for a question.
   FutureOr<void> _onSelectOption(
       QuizOptionSelected event, Emitter<QuizState> emit) {
     emit(

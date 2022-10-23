@@ -1,11 +1,6 @@
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:very_good_supabase/app/bloc/app_bloc.dart';
-import 'package:very_good_supabase/app/routes/routes.dart';
 import 'package:very_good_supabase/auth_states_supabase/auth.dart';
-import 'package:very_good_supabase/categories/categories.dart';
 import 'package:very_good_supabase/categories/view/category_page.dart';
 import 'package:very_good_supabase/l10n/l10n.dart';
 
@@ -29,7 +24,7 @@ class _AppViewState extends AuthStateSupabase<AppView> {
       title: 'Very Good Supabase',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(color: Color(0xff44475a)),
-        scaffoldBackgroundColor: const Color(0xff282a36),
+        scaffoldBackgroundColor: const Color(0xff2e3440),
         colorScheme: const ColorScheme.dark().copyWith(
           primary: Colors.teal,
           background: Colors.red,
@@ -38,11 +33,16 @@ class _AppViewState extends AuthStateSupabase<AppView> {
           headline1: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
-            color: Color(0xfffbd93f9),
+            color: Color(0xff88c0d0),
           ),
           headline2: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
+            color: Color(0xfff8f8f2),
+          ),
+          headline3: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
             color: Color(0xfff8f8f2),
           ),
         ),

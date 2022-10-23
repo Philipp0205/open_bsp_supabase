@@ -1,12 +1,7 @@
-import 'dart:ui';
-
-import 'package:category_repository/src/models/category.dart';
+import 'package:category_repository/category_repository.dart';
 import 'package:flutter/src/widgets/image.dart';
 import 'package:supabase_auth_client/supabase_auth_client.dart';
 import 'package:supabase_database_client/supabase_database_client.dart';
-
-import '../category_repository.dart';
-import 'models/question.dart';
 
 // Copyright (c) 2022, Very Good Ventures
 // https://verygood.ventures
@@ -19,8 +14,6 @@ import 'models/question.dart';
 /// A package which manages the categories.
 /// {@endtemplate}
 class CategoryRepository {
-  final SupabaseAuthClient _authClient;
-  final SupabaseDatabaseClient _databaseClient;
 
   /// {@macro category_repository}
   const CategoryRepository({
@@ -28,6 +21,8 @@ class CategoryRepository {
     required SupabaseDatabaseClient databaseClient,
   })  : _authClient = authClient,
         _databaseClient = databaseClient;
+  final SupabaseAuthClient _authClient;
+  final SupabaseDatabaseClient _databaseClient;
 
   /// Method to access the current category.
   Future<List<Category>> getCategories() async {
